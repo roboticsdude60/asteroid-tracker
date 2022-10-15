@@ -20,14 +20,15 @@ function drawEarth() {
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(name, distance, diameter) {
   const ctx = canvas.getContext("2d");
-  let d = Math.max(diameter * 10, 1);
+  const r = Math.max(diameter * 10, 1);
+  const distanceMainAxis = distance * 3;
   ctx.fillStyle = "black";
   ctx.beginPath();
   
-  ctx.arc(distance * 3, centerCrossAxis, d, 0, 2 * Math.PI);
+  ctx.arc(distanceMainAxis, centerCrossAxis, r, 0, 2 * Math.PI);
   ctx.fill();
   ctx.font = '8px Arial';
-  ctx.fillText(label, distance * 3 + d, centerCrossAxis + d);
+  ctx.fillText(name, distanceMainAxis + r + 10, centerCrossAxis - d);
 }
 
 drawEarth();
@@ -77,7 +78,7 @@ function getAsteroidData() {
 
     fetch(asteroidAPIURL)
       .then(function (response) {
-        if (response.satatus != 200) {
+        if (response.status != 200) {
           console.log('Error when fetching: ' + response.statusText);
           throw response;
         } else {
@@ -105,10 +106,16 @@ relative_velocity: float(km/sec)
 //what else do we want?
 }
 */
+
 function organizeAsteroidData(json_data) {
   console.log(`organizing asteroid data: ${JSON.stringify(json_data)}`);
   const asteroids = [];
-  const near_earth_objects = json_data.near_earth_objects;
+  let near_earth_objects = []
+  const keys = Object.keys(json_data.near_earth_objects);
+  keys.forEach((key) => {
+    near_earth_objects = [...near_earth_objects, ...json_data.near_earth_objects[key]];
+  })
+
   near_earth_objects.forEach((object) => {
     const asteroid = {};
     asteroid.name = object.name;
@@ -119,12 +126,12 @@ function organizeAsteroidData(json_data) {
     asteroid.is_potentially_hazardous_asteroid =
       object.is_potentially_hazardous_asteroid;
     asteroid.miss_distance =
-      object.close_approach_data.miss_distance.kilometers;
+      object.close_approach_data[0].miss_distance.kilometers;
     asteroid.relative_velocity =
-      object.close_approach_data.relative_velocity.kilometers_per_second;
+      object.close_approach_data[0].relative_velocity.kilometers_per_second;
     asteroids.push(asteroid);
   });
-  console.log(json_data);
+  console.log(asteroids);
 }
 
 document
