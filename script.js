@@ -1,3 +1,13 @@
+const canvas = document.getElementById("spaceCanvas");
+canvas.width  = visualViewport.width;
+canvas.height = 300;
+const ctx = canvas.getContext("2d");
+ctx.moveTo(0, 0);
+ctx.lineTo(200, 100);
+ctx.stroke();
+
+
+
 /*
 This is your site JavaScript code - you can add interactivity and carry out processing
 - Initially the JS writes a message to the console, and moves a button you can add from the README
@@ -25,3 +35,7 @@ if (btn) {
 This is a comment that can span multiple lines 
 - use comments to make your own notes!
 */
+
+
+
+
