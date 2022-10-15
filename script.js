@@ -81,7 +81,14 @@ function getAsteroidData(start_date, end_date) {
 
 function organizeAsteroidData(json_data){
   const asteroids = [];
-  
+  const near_earth_objects = json_data.near_earth_objects;
+  near_earth_objects.forEach((object) => {
+    const asteroid = {};
+    asteroid.name = near_earth_objects[]  })
+  for (let i = 0; i < near_earth_objects; i++) {
+    const asteroid = {};
+    asteroid.name = near_earth_objects[]
+  }
   console.log(json_data);
   
 }
