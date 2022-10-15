@@ -13,6 +13,8 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
+    
+    <link rel="stylesheet" href="./dist/vanilla-datetimerange-picker.css" />
 
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="./style.css" />
@@ -58,6 +60,7 @@
     
     <form id="date_form">
         <p>Please enter date stuff:</p>
+      <input type="text" id="dateRange" required />
         <input id="start_date" type="text" placeholder="Start_Date" required>
         <input id="end_date" type="text" placeholder="End_Date" required>
           <button id="submit">
@@ -76,6 +79,9 @@
       integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
       crossorigin="anonymous"
     ></script>
+    
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="./dist/vanilla-datetimerange-picker.js"></script>
     
     <script type="text/javascript" src="./script.js"></script>
   </body>

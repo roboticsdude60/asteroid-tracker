@@ -28,7 +28,7 @@ function drawAsteroid(name, distance, diameter) {
   ctx.arc(distanceMainAxis, centerCrossAxis, r, 0, 2 * Math.PI);
   ctx.fill();
   ctx.font = '8px Arial';
-  ctx.fillText(name, distanceMainAxis + r + 10, centerCrossAxis - d);
+  ctx.fillText(name, distanceMainAxis + r + 10, centerCrossAxis - r);
 }
 
 drawEarth();
@@ -86,7 +86,10 @@ function getAsteroidData() {
         }
       })
       .then(function (json) {
-        organizeAsteroidData(json);
+        const asteroids = organizeAsteroidData(json);
+        asteroids.forEach((asteroid) => {
+          drawAsteroid(asteroid.name, asteroid)
+        })
       });
   } catch (err) {
     console.log(err);
@@ -101,7 +104,7 @@ name: string
 estimated_diameter_min: float(km)
 estimated_diameter_max: float(km)
 is_potentially_hazardous_asteroid: boolean
-miss_distance: float (km)
+miss_distance: float (lunar)
 relative_velocity: float(km/sec)
 //what else do we want?
 }
@@ -126,12 +129,13 @@ function organizeAsteroidData(json_data) {
     asteroid.is_potentially_hazardous_asteroid =
       object.is_potentially_hazardous_asteroid;
     asteroid.miss_distance =
-      object.close_approach_data[0].miss_distance.kilometers;
+      object.close_approach_data[0].miss_distance.lunar;
     asteroid.relative_velocity =
       object.close_approach_data[0].relative_velocity.kilometers_per_second;
     asteroids.push(asteroid);
   });
   console.log(asteroids);
+  return asteroids;
 }
 
 document
