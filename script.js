@@ -47,13 +47,13 @@ API format:
 https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
 START_DATE: YYYY-MM-DD
 END_DATE: YYYY-MM-DD
-API_KEY: N/A
+API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 */
 
-const asteroidAPIURL = "";
+let asteroidAPIURL = "";
 function setAsteroidAPIURL() {
-  const start_date = document.getElementById("start_date").innerHTML;
-  const end_date = document.getElementById("end_date").innerHTML;
+  const start_date = document.getElementById("date_form").elements[0].value;
+  const end_date = document.getElementById("date_form").elements[1].value;
   const regex = /^\d{4}-(((0[1-9])|(1[0-2])))-((0[1-9])|(1[0-9])|(2[0-9])|(3[0-1]))$/;
   if (regex.test(start_date) == false || regex.test(end_date) == false) {
     throw "START_DATE or END_DATE is not formatted in YYYY-MM-DD format";
@@ -62,7 +62,8 @@ function setAsteroidAPIURL() {
     "https://api.nasa.gov/neo/rest/v1/feed?start_date=" +
     start_date +
     "&end_date=" +
-    end_date;
+    end_date +
+    "&api_key=JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl";
 }
 
 function getAsteroidData() {
