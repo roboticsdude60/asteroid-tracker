@@ -1,4 +1,5 @@
-import('./vanilla-datetimerange-picker.js');
+
+import('./tinypicker.js');
 
 const canvas = document.getElementById("myCanvas");
 canvas.width = visualViewport.width;
@@ -62,33 +63,39 @@ END_DATE: YYYY-MM-DD
 API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 */
 
+let asteroidAPIURL = "";
+
 function getAsteroidsThisWeek() {
   const today = new Date
-  const formatMap = {
-	  mm: today.getMonth() + 1,
-    dd: today.getDate(),
-    yyyy: today.getFullYear()
-};
-const futureDate = new Date();
-futureDate.setTime(today.getTime());
+  const endDate = new Date();
+  endDate.setTime(today.getTime());
+  
+  console.log(endDate);
+  
+  const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
+  endDate.setTime(endDate.getTime() + oneWeekInMillis);
+  
+  const startDateFormat = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + (today.getDate());
+  const endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + (endDate.getDate());
+  document.getElementById("date_form").elements[0].value = startDateFormat;
+  document.getElementById("date_form").elements[1].value = endDateFormat;
+  getAsteroidData(startDateFormat, endDateFormat);
+  }
 
-console.log(futureDate);
-// expected output: Thu Jul 01 1999 12:00:00 GMT+0200 (CEST)
-
-const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
-futureDate.setTime(futureDate.getTime() + oneWeekInMillis);
-}
-
-
-let asteroidAPIURL = "";
 function setAsteroidAPIURL() {
-  const start_date = document.getElementById("date_form").elements[0].value;
-  const end_date = document.getElementById("date_form").elements[1].value;
+  let start_date =  document.getElementById("date_form").elements[0].value;
+  let end_date = document.getElementById("date_form").elements[1].value;
   const regex = /^\d{4}-(((0[1-9])|(1[0-2])))-((0[1-9])|(1[0-9])|(2[0-9])|(3[0-1]))$/;
   if (regex.test(start_date) == false || regex.test(end_date) == false) {
-    throw "START_DATE or END_DATE is not formatted in YYYY-MM-DD format";
-  }
-  asteroidAPIURL =
+    console.log("START_DATE or END_DATE is not formatted in YYYY-MM-DD format");
+    start_date = "2000-05-05";
+    end_date = "2000-05-06";
+}
+    makeURL(start_date, end_date)
+}
+
+function makeURL(start_date, end_date) {
+    asteroidAPIURL =
     "https://api.nasa.gov/neo/rest/v1/feed?start_date=" +
     start_date +
     "&end_date=" +
@@ -96,9 +103,13 @@ function setAsteroidAPIURL() {
     "&api_key=JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl";
 }
 
-function getAsteroidData() {
+async function getAsteroidData(start_date = null, end_date = null) {
   try {
-    setAsteroidAPIURL();
+    if (!start_date || !end_date){
+        setAsteroidAPIURL();
+    } else {
+        makeURL(start_date, end_date);
+    }
 
     fetch(asteroidAPIURL)
       .then(function (response) {
@@ -161,6 +172,8 @@ function organizeAsteroidData(json_data) {
   console.log(asteroids);
   return asteroids;
 }
+
+getAsteroidsThisWeek();
 
 document
   .getElementById("submit")

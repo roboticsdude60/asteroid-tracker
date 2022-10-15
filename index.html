@@ -13,7 +13,7 @@
       integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
       crossorigin="anonymous"
     />
-    
+
     <link rel="stylesheet" href="./vanilla-datetimerange-picker.css" />
 
     <!-- Import the webpage's stylesheet -->
@@ -37,10 +37,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto mt-2 mt-md-0">
-<!--           <li class="nav-item">
+          <!--           <li class="nav-item">
             <a href="./planetoids.html" class="nav-link">Planetoids</a>
           </li> -->
-          
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input
@@ -52,24 +51,20 @@
         </form>
       </div>
     </nav>
-    
+
     <div class="container-fluid px-0">
       <canvas id="myCanvas"></canvas>
     </div>
-    
-    
+
     <form id="date_form">
-        <p>Please enter date stuff:</p>
-      <input type="text" id="dateRange" required />
-        <input id="start_date" type="text" placeholder="Start_Date" required>
-        <input id="end_date" type="text" placeholder="End_Date" required>
-          <button id="submit">
-      test_button
-    </button>
+      <p>Please enter date stuff:</p>
+      <input type="text" id="startDate" />
+      <input type="text" id="endDate" />
+      <input id="start_date" type="text" placeholder="Start_Date" required />
+      <input id="end_date" type="text" placeholder="End_Date" required />
+      <button id="submit">test_button</button>
     </form>
 
-
-    
     <footer class="mt:auto">
       <p>Authors: Joseph Scholl and Steven Mitchell</p>
     </footer>
@@ -79,10 +74,9 @@
       integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
       crossorigin="anonymous"
     ></script>
-    
-    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script src="./vanilla-datetimerange-picker.js"></script>
-    
+
+    <script src="tinypicker.js"></script>
+
     <script type="text/javascript" src="./script.js"></script>
   </body>
 </html>
