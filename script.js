@@ -1,10 +1,16 @@
-const canvas = document.getElementById("spaceCanvas");
+const canvas = document.getElementById("myCanvas");
 canvas.width  = visualViewport.width;
 canvas.height = 300;
 const ctx = canvas.getContext("2d");
-ctx.moveTo(0, 0);
+const radius = canvas.height / 2;
+ctx.beginPath();
+ctx.arc(0, canvas.height/2, canvas.height)
+ctx.moveTo(0, canvas.height/2);
 ctx.lineTo(200, 100);
 ctx.stroke();
+
+
+const asteroidAIPURL = 
 
 
 
@@ -28,6 +34,10 @@ if (btn) {
     // The JS works in conjunction with the 'dipped' code in style.css
     btn.classList.toggle("dipped");
   };
+}
+
+function getAsteroidData() {
+  
 }
 
 // This is a single line JS comment
