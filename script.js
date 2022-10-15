@@ -20,14 +20,19 @@ function drawEarth() {
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(name, distance, diameter) {
   const ctx = canvas.getContext("2d");
+  let d = Math.max(diameter * 10, 1);
   ctx.fillStyle = "black";
   ctx.beginPath();
-  ctx.arc(distance * 3, centerCrossAxis, diameter * 10, 0, 2 * Math.PI);
+  
+  ctx.arc(distance * 3, centerCrossAxis, d, 0, 2 * Math.PI);
   ctx.fill();
+  ctx.font = '8px Arial';
+  ctx.fillText(label, distance * 3 + d, centerCrossAxis + d);
 }
 
 drawEarth();
 drawAsteroid("465633 (2009 JR5)", 117.7689258646, 0.2251930467);
+drawAsteroid("(2020 WZ)", 179.797103928,0.0110803882);
 
 /* 
 Make the "Click me!" button move when the visitor clicks it:
@@ -73,11 +78,11 @@ function getAsteroidData() {
     fetch(asteroidAPIURL)
       .then(function (response) {
         if (response.satatus != 200) {
-          return {
-            text: "Error calling asteroid API: " + response.statusText,
-          };
+          console.log('Error when fetching: ' + response.statusText);
+          throw response;
+        } else {
+          return response.json();
         }
-        return response.json();
       })
       .then(function (json) {
         organizeAsteroidData(json);
