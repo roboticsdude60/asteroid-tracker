@@ -1,11 +1,12 @@
-function drawEarth() {
-  const canvas = document.getElementById("myCanvas");
-  canvas.width  = visualViewport.width;
-  canvas.height = 300;
-  const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("myCanvas");
+canvas.width  = visualViewport.width;
+canvas.height = 300;
+const centerCrossAxis = canvas.height / 2;
 
+
+function drawEarth() {
+  const ctx = canvas.getContext("2d");
   // draw earth
-  const centerCrossAxis = canvas.height / 2;
   ctx.beginPath();
   ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
   ctx.fill();
@@ -17,14 +18,18 @@ function drawEarth() {
 
 
 // give me the lunar miss distance
-// and the average of the 
+// and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(distance, diameter) {
-  const canvas = document.getElementById("myCanvas");
+  // const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
   
+  ctx.beginPath();
+  ctx.arc(distance * 1.8, centerCrossAxis, diameter, 0, 2 * Math.PI);
+  ctx.fill();
 }
 
 drawEarth();
+drawAsteroid(117.7689258646, 0.2251930467);
 
 /* 
 Make the "Click me!" button move when the visitor clicks it:
@@ -75,6 +80,9 @@ function getAsteroidData(start_date, end_date) {
 }
 
 function organizeAsteroidData(json_data){
+  const asteroids = [];
+  
+  console.log(json_data);
   
 }
 
