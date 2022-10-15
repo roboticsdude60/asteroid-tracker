@@ -1,28 +1,30 @@
-const canvas = document.getElementById("myCanvas");
-canvas.width  = visualViewport.width;
-canvas.height = 300;
-const ctx = canvas.getContext("2d");
+function drawEarth() {
+  const canvas = document.getElementById("myCanvas");
+  canvas.width  = visualViewport.width;
+  canvas.height = 300;
+  const ctx = canvas.getContext("2d");
 
-// draw earth
-const ma = canvas.height / 2;
-ctx.beginPath();
-ctx.arc(-60, canvas.height / 2, 200, 0, 2 * Math.PI);
-ctx.fill();
-// label earth
-ctx.fillStyle = "white";
-ctx.font = "18px Arial";
-ctx.fillText("Earth", 10, 50);
+  // draw earth
+  const centerCrossAxis = canvas.height / 2;
+  ctx.beginPath();
+  ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
+  ctx.fill();
+  // label earth
+  ctx.fillStyle = "white";
+  ctx.font = "18px Arial";
+  ctx.fillText("Earth", 20, centerCrossAxis)
+}
 
 
+// give me the lunar miss distance
+// and the average of the 
+function drawAsteroid(distance, diameter) {
+  const canvas = document.getElementById("myCanvas");
+  const ctx = canvas.getContext("2d");
+  
+}
 
-/*
-This is your site JavaScript code - you can add interactivity and carry out processing
-- Initially the JS writes a message to the console, and moves a button you can add from the README
-*/
-
-// Print a message in the browser's dev tools console each time the page loads
-// Use your menus or right-click / control-click and choose "Inspect" > "Console"
-console.log("Hello 🌎");
+drawEarth();
 
 /* 
 Make the "Click me!" button move when the visitor clicks it:
@@ -37,6 +39,8 @@ if (btn) {
   };
 }
 
+
+
 /*
 API format:
 https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
@@ -45,17 +49,18 @@ END_DATE: YYYY-MM-DD
 API_KEY: N/A
 */
 
-function asteroidAPIURL(start_date, end_date) {
-  const regex = /\d{4}-\d{2}-\d{2}/
+const asteroidAPIURL = "";
+function setAsteroidAPIURL(start_date, end_date) {
+  const regex = /\d{4}-[01-12]{2}-[01-31]{2}/
   if (regex.test(start_date) == false || regex.test(end_date) == false){
     throw 'START_DATE or END_DATE is not formatted in YYYY-MM-DD format'
   }
-  const asteroidAPIURL = "https://api.nasa.gov/neo/rest/v1/feed?" + start_date 
-  
+  asteroidAPIURL = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + start_date + "&end_date=" + end_date;
   }
 
 
 function getAsteroidData(start_date, end_date) {
+  setAsteroidAPIURL(start_date, end_date);
   fetch(asteroidAPIURL)
     .then(function(response) {
           if (response.satatus != 200) {
