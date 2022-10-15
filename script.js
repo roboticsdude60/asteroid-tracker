@@ -1,7 +1,10 @@
+import('./vanilla-datetimerange-picker.js');
+
 const canvas = document.getElementById("myCanvas");
 canvas.width = visualViewport.width;
 canvas.height = 300;
 const centerCrossAxis = canvas.height / 2;
+
 
 function drawEarth() {
   const ctx = canvas.getContext("2d");
@@ -35,6 +38,9 @@ drawEarth();
 drawAsteroid("465633 (2009 JR5)", 117.7689258646, 0.2251930467);
 drawAsteroid("(2020 WZ)", 179.797103928,0.0110803882);
 
+
+const instance = new DateRangePicker('example', {})
+
 /* 
 Make the "Click me!" button move when the visitor clicks it:
 - First add the button to the page by following the "Next steps" in the README
@@ -55,6 +61,24 @@ START_DATE: YYYY-MM-DD
 END_DATE: YYYY-MM-DD
 API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 */
+
+function getAsteroidsThisWeek() {
+  const today = new Date
+  const formatMap = {
+	  mm: today.getMonth() + 1,
+    dd: today.getDate(),
+    yyyy: today.getFullYear()
+};
+const futureDate = new Date();
+futureDate.setTime(today.getTime());
+
+console.log(futureDate);
+// expected output: Thu Jul 01 1999 12:00:00 GMT+0200 (CEST)
+
+const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
+futureDate.setTime(futureDate.getTime() + oneWeekInMillis);
+}
+
 
 let asteroidAPIURL = "";
 function setAsteroidAPIURL() {
