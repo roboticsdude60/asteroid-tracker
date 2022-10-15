@@ -2,15 +2,16 @@ const canvas = document.getElementById("myCanvas");
 canvas.width  = visualViewport.width;
 canvas.height = 300;
 const ctx = canvas.getContext("2d");
-const radius = canvas.height / 2;
+
+// draw earth
+const ma = canvas.height / 2;
 ctx.beginPath();
-ctx.arc(0, canvas.height/2, canvas.height)
-ctx.moveTo(0, canvas.height/2);
-ctx.lineTo(200, 100);
-ctx.stroke();
-
-
-const asteroidAIPURL = 
+ctx.arc(-60, canvas.height / 2, 200, 0, 2 * Math.PI);
+ctx.fill();
+// label earth
+ctx.fillStyle = "white";
+ctx.font = "18px Arial";
+ctx.fillText("Earth", 10, 50);
 
 
 
@@ -36,7 +37,39 @@ if (btn) {
   };
 }
 
-function getAsteroidData() {
+/*
+API format:
+https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
+START_DATE: YYYY-MM-DD
+END_DATE: YYYY-MM-DD
+API_KEY: N/A
+*/
+
+function asteroidAPIURL(start_date, end_date) {
+  const regex = /\d{4}-\d{2}-\d{2}/
+  if (regex.test(start_date) == false || regex.test(end_date) == false){
+    throw 'START_DATE or END_DATE is not formatted in YYYY-MM-DD format'
+  }
+  const asteroidAPIURL = "https://api.nasa.gov/neo/rest/v1/feed?" + start_date 
+  
+  }
+
+
+function getAsteroidData(start_date, end_date) {
+  fetch(asteroidAPIURL)
+    .then(function(response) {
+          if (response.satatus != 200) {
+            return {
+              text: "Error calling asteroid API: " + response.statusText
+            }
+          }
+          return response.json();
+      }).then (function(json) {
+    organizeAsteroidData(json);
+  })
+}
+
+function organizeAsteroidData(json_data){
   
 }
 
