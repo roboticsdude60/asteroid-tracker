@@ -3,33 +3,32 @@ canvas.width  = visualViewport.width;
 canvas.height = 300;
 const centerCrossAxis = canvas.height / 2;
 
-
 function drawEarth() {
-  // const ctx = canvas.getContext("2d");
-  // // draw earth
-  // ctx.beginPath();
-  // ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
-  // ctx.fill();
-  // // label earth
-  // ctx.fillStyle = "white";
-  // ctx.font = "18px Arial";
-  // ctx.fillText("Earth", 20, centerCrossAxis)
+  const ctx = canvas.getContext("2d");
+  // draw earth
+  ctx.fillStyle = "black";
+  ctx.beginPath();
+  ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
+  ctx.fill();
+  // label earth
+  ctx.fillStyle = "white";
+  ctx.font = "18px Arial";
+  ctx.fillText("Earth", 20, centerCrossAxis)
 }
 
 
 // give me the lunar miss distance
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
-function drawAsteroid(distance, diameter) {
-  // const canvas = document.getElementById("myCanvas");
+function drawAsteroid(name, distance, diameter) {
   const ctx = canvas.getContext("2d");
-  
+  ctx.fillStyle = "black";
   ctx.beginPath();
-  ctx.arc(300, centerCrossAxis, 2, 0, 2 * Math.PI);
+  ctx.arc(distance * 3, centerCrossAxis, diameter * 10, 0, 2 * Math.PI);
   ctx.fill();
 }
 
 drawEarth();
-drawAsteroid(117.7689258646, 0.2251930467);
+drawAsteroid('465633 (2009 JR5)',117.7689258646, 0.2251930467);
 
 /* 
 Make the "Click me!" button move when the visitor clicks it:
@@ -99,11 +98,13 @@ function organizeAsteroidData(json_data){
   near_earth_objects.forEach((object) => {
     const asteroid = {};
     asteroid.name = object.name;
-    asteroid.estimated_diameter_min = object.estimated_diameter.kilometers.estimated_diameter_min
-    asteroid.estimated_diameter_max = object.estimated_diameter.kilometers.estimated_diameter_max
+    asteroid.estimated_diameter_min = object.estimated_diameter.kilometers.estimated_diameter_min;
+    asteroid.estimated_diameter_max = object.estimated_diameter.kilometers.estimated_diameter_max;
     asteroid.is_potentially_hazardous_asteroid = object.is_potentially_hazardous_asteroid;
-    asteroid.miss_distance = object.close_approach_data.
-  })
+    asteroid.miss_distance = object.close_approach_data.miss_distance.kilometers;
+    asteroid.relative_velocity = object.close_approach_data.relative_velocity.kilometers_per_second;
+    asteroids.push(asteroid); 
+  });
   console.log(json_data);
   
 }
