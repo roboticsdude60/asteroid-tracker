@@ -5,15 +5,15 @@ const centerCrossAxis = canvas.height / 2;
 
 
 function drawEarth() {
-  const ctx = canvas.getContext("2d");
-  // draw earth
-  ctx.beginPath();
-  ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
-  ctx.fill();
-  // label earth
-  ctx.fillStyle = "white";
-  ctx.font = "18px Arial";
-  ctx.fillText("Earth", 20, centerCrossAxis)
+  // const ctx = canvas.getContext("2d");
+  // // draw earth
+  // ctx.beginPath();
+  // ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
+  // ctx.fill();
+  // // label earth
+  // ctx.fillStyle = "white";
+  // ctx.font = "18px Arial";
+  // ctx.fillText("Earth", 20, centerCrossAxis)
 }
 
 
@@ -24,7 +24,7 @@ function drawAsteroid(distance, diameter) {
   const ctx = canvas.getContext("2d");
   
   ctx.beginPath();
-  ctx.arc(distance * 1.8, centerCrossAxis, diameter, 0, 2 * Math.PI);
+  ctx.arc(300, centerCrossAxis, 2, 0, 2 * Math.PI);
   ctx.fill();
 }
 
@@ -79,16 +79,31 @@ function getAsteroidData(start_date, end_date) {
   })
 }
 
+
+/*
+Will organize all the data from the json to:
+
+{
+name: string
+estimated_diameter_min: float(km)
+estimated_diameter_max: float(km)
+is_potentially_hazardous_asteroid: boolean
+miss_distance: float (km)
+relative_velocity: float(km/sec)
+//what else do we want?
+}
+*/
 function organizeAsteroidData(json_data){
   const asteroids = [];
   const near_earth_objects = json_data.near_earth_objects;
   near_earth_objects.forEach((object) => {
     const asteroid = {};
-    asteroid.name = near_earth_objects[]  })
-  for (let i = 0; i < near_earth_objects; i++) {
-    const asteroid = {};
-    asteroid.name = near_earth_objects[]
-  }
+    asteroid.name = object.name;
+    asteroid.estimated_diameter_min = object.estimated_diameter.kilometers.estimated_diameter_min
+    asteroid.estimated_diameter_max = object.estimated_diameter.kilometers.estimated_diameter_max
+    asteroid.is_potentially_hazardous_asteroid = object.is_potentially_hazardous_asteroid;
+    asteroid.miss_distance = object.close_approach_data.
+  })
   console.log(json_data);
   
 }
