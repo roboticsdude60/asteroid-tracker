@@ -54,7 +54,7 @@ const asteroidAPIURL = "";
 function setAsteroidAPIURL() {
   const start_date = document.getElementById("start_date").innerHTML;
   const end_date = document.getElementById("end_date").innerHTML;
-  const regex = /\d{4}-[01-12]{2}-[01-31]{2}/;
+  const regex = /^\d{4}-(((0[1-9])|(1[0-2])))-((0[1-9])|(1[0-9])|(2[0-9])|(3[0-1]))$/;
   if (regex.test(start_date) == false || regex.test(end_date) == false) {
     throw "START_DATE or END_DATE is not formatted in YYYY-MM-DD format";
   }
@@ -122,5 +122,5 @@ function organizeAsteroidData(json_data) {
 }
 
 document
-  .getElementById("test_button")
+  .getElementById("submit")
   .addEventListener("click", getAsteroidData);
