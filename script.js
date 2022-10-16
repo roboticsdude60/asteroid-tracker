@@ -20,8 +20,11 @@ function drawEarth() {
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
   const ctx = canvas.getContext("2d");
-  const r = Math.max(diameter * 10, 1);
-  const distanceMainAxis = distance * 3;
+  const r = Math.max(
+    (asteroid.estimated_diameter_min + asteroid.estimated_diameter_max) * 10,
+    1
+  );
+  const distanceMainAxis = asteroid.miss_distance * 3;
   ctx.fillStyle = "black";
   ctx.beginPath();
 
@@ -45,28 +48,28 @@ API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 
 let asteroidAPIURL = "";
 
-function getAsteroidsThisWeek() {
-  const today = new Date();
-  const endDate = new Date();
-  endDate.setTime(today.getTime());
+// function getAsteroidsThisWeek() {
+//   const today = new Date();
+//   const endDate = new Date();
+//   endDate.setTime(today.getTime());
 
-  console.log(endDate);
+//   console.log(endDate);
 
-  const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
-  endDate.setTime(endDate.getTime() + oneWeekInMillis);
+//   const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
+//   endDate.setTime(endDate.getTime() + oneWeekInMillis);
 
-  const startDateFormat =
-    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-  const endDateFormat =
-    endDate.getFullYear() +
-    "-" +
-    (endDate.getMonth() + 1) +
-    "-" +
-    endDate.getDate();
-  document.getElementById("date_form").elements[0].value = startDateFormat;
-  document.getElementById("date_form").elements[1].value = endDateFormat;
-  getAsteroidData(startDateFormat, endDateFormat);
-}
+//   const startDateFormat =
+//     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+//   const endDateFormat =
+//     endDate.getFullYear() +
+//     "-" +
+//     (endDate.getMonth() + 1) +
+//     "-" +
+//     endDate.getDate();
+//   document.getElementById("date_form").elements[0].value = startDateFormat;
+//   document.getElementById("date_form").elements[1].value = endDateFormat;
+//   getAsteroidData(startDateFormat, endDateFormat);
+// }
 
 function getAsteroidAPIURL() {
   let start_date = document.getElementById("startDate").value;
@@ -80,7 +83,7 @@ function getAsteroidAPIURL() {
     start_date = "2000-05-05";
     end_date = "2000-05-06";
   }
-  makeURL(start_date, end_date);
+  return makeURL(start_date, end_date);
 }
 
 function makeURL(start_date, end_date) {
@@ -93,12 +96,14 @@ async function getAsteroidData(event) {
   event.preventDefault();
 
   const url = getAsteroidAPIURL();
-  fetch(asteroidAPIURL)
+  console.log(url);
+  fetch(url)
     .then(function (response) {
       if (response.status != 200) {
         console.log("Error when fetching: " + response.statusText);
         throw response;
       } else {
+        console.log(response.text());
         return response.json();
       }
     })
@@ -135,21 +140,17 @@ function organizeAsteroidData(json_data) {
     ];
   });
 
-  const asteroids = near_earth_objects.map((object) => {
-    const asteroid = {
-      name: object.name,
-      estimated_diameter_min:
-        object.estimated_diameter.kilometers.estimated_diameter_min,
-      estimated_diameter_max:
-        object.estimated_diameter.kilometers.estimated_diameter_max,
-      is_potentially_hazardous_asteroid:
-        object.is_potentially_hazardous_asteroid,
-      miss_distance: object.close_approach_data[0].miss_distance.lunar,
-      relative_velocity:
-        object.close_approach_data[0].relative_velocity.kilometers_per_second,
-    };
-    
-  });
+  const asteroids = near_earth_objects.map((object) => ({
+    name: object.name,
+    estimated_diameter_min:
+      object.estimated_diameter.kilometers.estimated_diameter_min,
+    estimated_diameter_max:
+      object.estimated_diameter.kilometers.estimated_diameter_max,
+    is_potentially_hazardous_asteroid: object.is_potentially_hazardous_asteroid,
+    miss_distance: object.close_approach_data[0].miss_distance.lunar,
+    relative_velocity:
+      object.close_approach_data[0].relative_velocity.kilometers_per_second,
+  }));
   console.log(asteroids);
   return asteroids;
 }
