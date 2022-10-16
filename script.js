@@ -19,7 +19,7 @@ function drawEarth() {
 // give me the lunar miss distance
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
-  // I don't want to worry about overlapping asteroids, 
+  // I don't want to worry about overlapping asteroids,
   // but still, let's spread them out a bit with a random offset -- Sick
   const crossAxisLocation = 20 + Math.floor(Math.random() * 260);
   const ctx = canvas.getContext("2d");
@@ -28,7 +28,11 @@ function drawAsteroid(asteroid) {
     1
   );
   const distanceMainAxis = 100 + asteroid.miss_distance * 3.4;
-  ctx.fillStyle = "black";
+  if (asteroid.is_potentially_hazardous_asteroid) {
+    ctx.fillStyle = "orange";
+  } else {
+    ctx.fillStyle = "black";
+  }
   ctx.beginPath();
 
   ctx.arc(distanceMainAxis, crossAxisLocation, r, 0, 2 * Math.PI);
@@ -37,10 +41,6 @@ function drawAsteroid(asteroid) {
   ctx.fillText(asteroid.name, distanceMainAxis + r + 10, crossAxisLocation - r);
 }
 
-drawEarth();
-drawAsteroid("465633 (2009 JR5)", 117.7689258646, 0.2251930467);
-drawAsteroid("(2020 WZ)", 179.797103928, 0.0110803882);
-
 /*
 API format:
 https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
@@ -48,29 +48,6 @@ START_DATE: YYYY-MM-DD
 END_DATE: YYYY-MM-DD
 API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 */
-
-// function getAsteroidsThisWeek() {
-//   const today = new Date();
-//   const endDate = new Date();
-//   endDate.setTime(today.getTime());
-
-//   console.log(endDate);
-
-//   const oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
-//   endDate.setTime(endDate.getTime() + oneWeekInMillis);
-
-//   const startDateFormat =
-//     today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-//   const endDateFormat =
-//     endDate.getFullYear() +
-//     "-" +
-//     (endDate.getMonth() + 1) +
-//     "-" +
-//     endDate.getDate();
-//   document.getElementById("date_form").elements[0].value = startDateFormat;
-//   document.getElementById("date_form").elements[1].value = endDateFormat;
-//   getAsteroidData(startDateFormat, endDateFormat);
-// }
 
 function getAsteroidAPIURL() {
   const start_date = document.getElementById("date").value;
@@ -91,14 +68,16 @@ function makeURL(start_date, end_date) {
   return `https://api.nasa.gov/neo/rest/v1/feed?start_date=${start_date}&end_date=${end_date}&api_key=${apiKey}`;
 }
 
+function clear() {
+  const c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0, 0, c.width, c.height);
+}
+
 async function getAsteroidData(event) {
   // otherwise submitting the form makes the whole page refresh
   event.preventDefault();
 
-  const c = document.getElementById("myCanvas");
-  var ctx = c.getContext("2d");
-  ctx.clearRect(0,0,c.width, c.length);
-  
   const url = getAsteroidAPIURL();
   console.log(url);
   fetch(url)
@@ -112,6 +91,8 @@ async function getAsteroidData(event) {
     })
     .then(function (json) {
       const asteroids = organizeAsteroidData(json);
+      drawEarth();
+
       asteroids.forEach((asteroid) => {
         drawAsteroid(asteroid);
       });
@@ -161,3 +142,4 @@ function organizeAsteroidData(json_data) {
 // getAsteroidsThisWeek();
 
 document.getElementById("submit").addEventListener("click", getAsteroidData);
+document.getElementById("clear").addEventListener("click", clear);

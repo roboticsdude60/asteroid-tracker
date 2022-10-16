@@ -21,9 +21,10 @@
     <nav
       class="navbar navbar-default navbar-expand-md navbar-dark bg-dark sticky-top"
     >
-<!--       <div class="small">Testing</div> -->
-      <a class="navbar-brand small mx-auto" href="./">Outer Darkness Asteroid Tracker</a>
-
+      <!--       <div class="small">Testing</div> -->
+      <a class="navbar-brand small mx-auto" href="./"
+        >Outer Darkness Asteroid Tracker</a
+      >
     </nav>
 
     <div class="container-fluid px-0">
@@ -31,16 +32,23 @@
     </div>
 
     <div class="container-fluid px-0">
-      <div class="m-2 text-center ">Not strictly to scale</div>
+      <div class="m-2 mt-0">*Not strictly to scale</div>
     </div>
-    <form id="date_form">
+    <form class="m-2" id="date_form">
       <span>Please select a day</span>
-      <input type="date" id="date">
-<!--       <input type="date" id="endDate"> -->
+      <br />
+      <input type="date" id="date" />
       <button id="submit">Search</button>
     </form>
 
-    <footer class="mt:auto">
+    <!--
+
+do we really need a separate button or can it just be a part of the other functions?
+<-->
+    <div id="clearDiv">
+      <button id="clear">Clear</button>
+    </div>
+    <footer class="text-center">
       <p>Authors: Joseph Scholl and Steven Mitchell</p>
     </footer>
     <!-- bootstrap script. do not remove -->
