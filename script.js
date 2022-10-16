@@ -19,19 +19,22 @@ function drawEarth() {
 // give me the lunar miss distance
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
+  // I don't want to worry about overlapping asteroids, 
+  // but still, let's spread them out a bit with a random offset
+  const crossAxisLocation = 20 + Math.floor(Math.random() * 260);
   const ctx = canvas.getContext("2d");
   const r = Math.max(
     (asteroid.estimated_diameter_min + asteroid.estimated_diameter_max) * 8,
     1
   );
-  const distanceMainAxis = 40 + asteroid.miss_distance * 3.4;
+  const distanceMainAxis = 100 + asteroid.miss_distance * 3.4;
   ctx.fillStyle = "black";
   ctx.beginPath();
 
-  ctx.arc(distanceMainAxis, centerCrossAxis, r, 0, 2 * Math.PI);
+  ctx.arc(distanceMainAxis, crossAxisLocation, r, 0, 2 * Math.PI);
   ctx.fill();
   ctx.font = "8px Arial";
-  ctx.fillText(asteroid.name, distanceMainAxis + r + 10, centerCrossAxis - r);
+  ctx.fillText(asteroid.name, distanceMainAxis + r + 10, crossAxisLocation - r);
 }
 
 drawEarth();
