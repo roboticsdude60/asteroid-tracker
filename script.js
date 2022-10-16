@@ -8,12 +8,12 @@ function drawEarth() {
   // draw earth
   ctx.fillStyle = "black";
   ctx.beginPath();
-  ctx.arc(-80, centerCrossAxis, 200, 0, 2 * Math.PI);
+  ctx.arc(-720, centerCrossAxis, 800, 0, 2 * Math.PI);
   ctx.fill();
   // label earth
   ctx.fillStyle = "white";
   ctx.font = "18px Arial";
-  ctx.fillText("Earth", 20, centerCrossAxis);
+  ctx.fillText("Earth", 15, centerCrossAxis);
 }
 
 // give me the lunar miss distance
@@ -31,7 +31,7 @@ function drawAsteroid(asteroid) {
   ctx.arc(distanceMainAxis, centerCrossAxis, r, 0, 2 * Math.PI);
   ctx.fill();
   ctx.font = "8px Arial";
-  ctx.fillText(name, distanceMainAxis + r + 10, centerCrossAxis - r);
+  ctx.fillText(asteroid.name, distanceMainAxis + r + 10, centerCrossAxis - r);
 }
 
 drawEarth();
@@ -103,14 +103,13 @@ async function getAsteroidData(event) {
         console.log("Error when fetching: " + response.statusText);
         throw response;
       } else {
-        console.log(response.text());
         return response.json();
       }
     })
     .then(function (json) {
       const asteroids = organizeAsteroidData(json);
       asteroids.forEach((asteroid) => {
-        drawAsteroid(asteroid.name, asteroid);
+        drawAsteroid(asteroid);
       });
     });
 }
