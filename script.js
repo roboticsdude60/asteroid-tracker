@@ -80,8 +80,9 @@ function getAsteroidsThisWeek() {
   }
 
 function setAsteroidAPIURL() {
-  let start_date =  document.getElementById("date_form").elements[0].value;
-  let end_date = document.getElementById("date_form").elements[1].value;
+  let start_date =  document.getElementById("startDate").value;
+  let end_date = document.getElementById("endDate").value;
+  console.log(start_date, end_date);
   const regex = /^\d{4}-(((0[1-9])|(1[0-2])))-((0[1-9])|(1[0-9])|(2[0-9])|(3[0-1]))$/;
   if (regex.test(start_date) == false || regex.test(end_date) == false) {
     console.log("START_DATE or END_DATE is not formatted in YYYY-MM-DD format");
@@ -102,6 +103,7 @@ function makeURL(start_date, end_date) {
 
 async function getAsteroidData(start_date = null, end_date = null) {
   try {
+    console.log('getAsteroidData', start_date, end_date);
     if (!start_date || !end_date){
         setAsteroidAPIURL();
     } else {
