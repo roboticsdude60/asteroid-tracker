@@ -18,7 +18,7 @@ function drawEarth() {
 
 // give me the lunar miss distance
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
-function drawAsteroid(name, distance, diameter) {
+function drawAsteroid(asteroid) {
   const ctx = canvas.getContext("2d");
   const r = Math.max(diameter * 10, 1);
   const distanceMainAxis = distance * 3;
@@ -68,7 +68,7 @@ function getAsteroidsThisWeek() {
   getAsteroidData(startDateFormat, endDateFormat);
 }
 
-function setAsteroidAPIURL() {
+function getAsteroidAPIURL() {
   let start_date = document.getElementById("startDate").value;
   let end_date = document.getElementById("endDate").value;
   console.log(start_date, end_date);
@@ -84,17 +84,15 @@ function setAsteroidAPIURL() {
 }
 
 function makeURL(start_date, end_date) {
-  asteroidAPIURL =
-    `https://api.nasa.gov/neo/rest/v1/feed?start_date=${start_date}&end_date=${end_date} +
-    "&api_key=JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl";
+  const apiKey = "JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl";
+  return `https://api.nasa.gov/neo/rest/v1/feed?start_date=${start_date}&end_date=${end_date}&api_key=${apiKey}`;
 }
 
-async function getAsteroidData(event, start_date = null, end_date = null) {
+async function getAsteroidData(event) {
   // otherwise submitting the form makes the whole page refresh
   event.preventDefault();
 
-  setAsteroidAPIURL();
-
+  const url = getAsteroidAPIURL();
   fetch(asteroidAPIURL)
     .then(function (response) {
       if (response.status != 200) {
@@ -128,8 +126,6 @@ relative_velocity: float(km/sec)
 
 function organizeAsteroidData(json_data) {
   console.log(`organizing asteroid data`);
-  // console.log(`organizing asteroid data: ${JSON.stringify(json_data)}`);
-  const asteroids = [];
   let near_earth_objects = [];
   const keys = Object.keys(json_data.near_earth_objects);
   keys.forEach((key) => {
@@ -139,19 +135,20 @@ function organizeAsteroidData(json_data) {
     ];
   });
 
-  near_earth_objects.forEach((object) => {
-    const asteroid = {};
-    asteroid.name = object.name;
-    asteroid.estimated_diameter_min =
-      object.estimated_diameter.kilometers.estimated_diameter_min;
-    asteroid.estimated_diameter_max =
-      object.estimated_diameter.kilometers.estimated_diameter_max;
-    asteroid.is_potentially_hazardous_asteroid =
-      object.is_potentially_hazardous_asteroid;
-    asteroid.miss_distance = object.close_approach_data[0].miss_distance.lunar;
-    asteroid.relative_velocity =
-      object.close_approach_data[0].relative_velocity.kilometers_per_second;
-    asteroids.push(asteroid);
+  const asteroids = near_earth_objects.map((object) => {
+    const asteroid = {
+      name: object.name,
+      estimated_diameter_min:
+        object.estimated_diameter.kilometers.estimated_diameter_min,
+      estimated_diameter_max:
+        object.estimated_diameter.kilometers.estimated_diameter_max,
+      is_potentially_hazardous_asteroid:
+        object.is_potentially_hazardous_asteroid,
+      miss_distance: object.close_approach_data[0].miss_distance.lunar,
+      relative_velocity:
+        object.close_approach_data[0].relative_velocity.kilometers_per_second,
+    };
+    
   });
   console.log(asteroids);
   return asteroids;
