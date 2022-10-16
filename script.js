@@ -18,18 +18,16 @@ function drawEarth() {
 drawEarth();
 
 let maxDistance = 0;
-// give me the lunar miss distance
-// and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
   // I don't want to worry about overlapping asteroids,
   // but still, let's spread them out a bit with a random offset -- Sick
-  const crossAxisLocation = 20 + Math.floor(Math.random() * 260);
+  const crossAxisLocation = 20 + Math.floor(Math.random() * (canvas.height - 40));
   const ctx = canvas.getContext("2d");
   const r = Math.max(
     (asteroid.estimated_diameter_min + asteroid.estimated_diameter_max) * 8,
     1
   );
-  const distanceMainAxis = 100 + asteroid.miss_distance * 3.4;
+  const distanceMainAxis = 100 + (asteroid.miss_distance/maxDistance) * (canvas.width - 160);
   if (asteroid.is_potentially_hazardous_asteroid) {
     ctx.fillStyle = "orange";
   } else {
@@ -79,7 +77,7 @@ function clear() {
 async function getAsteroidData(event) {
   // otherwise submitting the form makes the whole page refresh
   event.preventDefault();
-
+  clear();
   const url = getAsteroidAPIURL();
   console.log(url);
   fetch(url)
@@ -136,10 +134,8 @@ function organizeAsteroidData(json_data) {
       object.close_approach_data[0].relative_velocity.kilometers_per_second,
   }));
   console.log(asteroids);
+  maxDistance = Math.max(...asteroids.map(a=>a.miss_distance));
   return asteroids;
 }
 
-// getAsteroidsThisWeek();
-
 document.getElementById("submit").addEventListener("click", getAsteroidData);
-document.getElementById("clear").addEventListener("click", clear);
