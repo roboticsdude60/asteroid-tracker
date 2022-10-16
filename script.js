@@ -73,10 +73,8 @@ API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 // }
 
 function getAsteroidAPIURL() {
-  let start_date = document.getElementById("startDate").value;
-  let end_date = start_
-  let end_date = document.getElementById("endDate").value;
-  console.log(start_date, end_date);
+  const start_date = document.getElementById("date").value;
+  const end_date = start_date;
 
   const regex =
     /^\d{4}-(((0[1-9])|(1[0-2])))-((0[1-9])|(1[0-9])|(2[0-9])|(3[0-1]))$/;
