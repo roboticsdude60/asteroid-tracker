@@ -1,10 +1,10 @@
 const canvas = document.getElementById("myCanvas");
 canvas.width = visualViewport.width;
-canvas.height = 300;
-const centerCrossAxis = canvas.height / 2;
+canvas.height = visualViewport.height - 250;
 
 function drawEarth() {
   const ctx = canvas.getContext("2d");
+  const centerCrossAxis = canvas.height / 2;
   // draw earth
   ctx.fillStyle = "black";
   ctx.beginPath();
@@ -15,7 +15,9 @@ function drawEarth() {
   ctx.font = "18px Arial";
   ctx.fillText("Earth", 15, centerCrossAxis);
 }
+drawEarth();
 
+let maxDistance = 0;
 // give me the lunar miss distance
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
@@ -69,9 +71,9 @@ function makeURL(start_date, end_date) {
 }
 
 function clear() {
-  const c = document.getElementById("myCanvas");
-  var ctx = c.getContext("2d");
-  ctx.clearRect(0, 0, c.width, c.height);
+  var ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawEarth();
 }
 
 async function getAsteroidData(event) {
@@ -91,8 +93,6 @@ async function getAsteroidData(event) {
     })
     .then(function (json) {
       const asteroids = organizeAsteroidData(json);
-      drawEarth();
-
       asteroids.forEach((asteroid) => {
         drawAsteroid(asteroid);
       });
