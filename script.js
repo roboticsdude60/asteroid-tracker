@@ -20,7 +20,7 @@ function drawEarth() {
 // and the average of the estimated_diameter_min and estimated_diameter_max in kilometers
 function drawAsteroid(asteroid) {
   // I don't want to worry about overlapping asteroids, 
-  // but still, let's spread them out a bit with a random offset
+  // but still, let's spread them out a bit with a random offset -- Sick
   const crossAxisLocation = 20 + Math.floor(Math.random() * 260);
   const ctx = canvas.getContext("2d");
   const r = Math.max(
@@ -74,6 +74,7 @@ API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 
 function getAsteroidAPIURL() {
   let start_date = document.getElementById("startDate").value;
+  let end_date = start_
   let end_date = document.getElementById("endDate").value;
   console.log(start_date, end_date);
 
@@ -96,6 +97,10 @@ async function getAsteroidData(event) {
   // otherwise submitting the form makes the whole page refresh
   event.preventDefault();
 
+  const c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.clearRect(0,0,c.width, c.length);
+  
   const url = getAsteroidAPIURL();
   console.log(url);
   fetch(url)
