@@ -8,7 +8,7 @@ function drawEarth() {
   // draw earth
   ctx.fillStyle = "black";
   ctx.beginPath();
-  ctx.arc(-720, centerCrossAxis, 800, 0, 2 * Math.PI);
+  ctx.arc(-1120, centerCrossAxis, 1200, 0, 2 * Math.PI);
   ctx.fill();
   // label earth
   ctx.fillStyle = "white";
@@ -21,10 +21,10 @@ function drawEarth() {
 function drawAsteroid(asteroid) {
   const ctx = canvas.getContext("2d");
   const r = Math.max(
-    (asteroid.estimated_diameter_min + asteroid.estimated_diameter_max) * 10,
+    (asteroid.estimated_diameter_min + asteroid.estimated_diameter_max) * 8,
     1
   );
-  const distanceMainAxis = asteroid.miss_distance * 3;
+  const distanceMainAxis = 40 + asteroid.miss_distance * 3.4;
   ctx.fillStyle = "black";
   ctx.beginPath();
 
@@ -45,8 +45,6 @@ START_DATE: YYYY-MM-DD
 END_DATE: YYYY-MM-DD
 API_KEY: JomaPZShT3jY2Bww2JRw79EuofjA8TW3CldDLJdl
 */
-
-let asteroidAPIURL = "";
 
 // function getAsteroidsThisWeek() {
 //   const today = new Date();
