@@ -1,6 +1,4 @@
 
-import('./tinypicker.js');
-
 const canvas = document.getElementById("myCanvas");
 canvas.width = visualViewport.width;
 canvas.height = 300;
@@ -40,7 +38,6 @@ drawAsteroid("465633 (2009 JR5)", 117.7689258646, 0.2251930467);
 drawAsteroid("(2020 WZ)", 179.797103928,0.0110803882);
 
 
-const instance = new DateRangePicker('example', {})
 
 /* 
 Make the "Click me!" button move when the visitor clicks it:

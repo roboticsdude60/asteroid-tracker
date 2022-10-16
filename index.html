@@ -14,8 +14,6 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="./vanilla-datetimerange-picker.css" />
-
     <!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" href="./style.css" />
   </head>
@@ -58,8 +56,8 @@
 
     <form id="date_form">
       <p>Please enter date stuff:</p>
-      <input type="text" id="startDate" />
-      <input type="text" id="endDate" />
+      <input type="date" id="startDate">
+      <input type="text" class="TinyPicker" id="endDate">
       <input id="start_date" type="text" placeholder="Start_Date" required />
       <input id="end_date" type="text" placeholder="End_Date" required />
       <button id="submit">test_button</button>
@@ -74,8 +72,6 @@
       integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
       crossorigin="anonymous"
     ></script>
-
-    <script src="tinypicker.js"></script>
 
     <script type="text/javascript" src="./script.js"></script>
   </body>
